@@ -8,52 +8,43 @@
     - libvirt-daemon-kvm
     - libvirt-client
 
-- name: install libvirt daemon, python-libvirt and httpd packages
-  yum:
-    name: ['libvirt-daemon-*','httpd','python-lxml','python3-lxml', 'python36-libvirt']
-    state: latest
-  when: install_status.rc == 0
-
-#- name: allow http service to firewalld service
-#  firewalld:
-#    service: http
-#    permanent: yes
-#    immediate: yes
-#    state: enabled
-#    zone: "{{ item }}"
-#  with_items:
-#    - public
-
-
 - name: start libvirt daemon
   service:
     name: libvirtd
     state: started
     enabled: yes
 
-- name: start httpd service
-  service:
-    name: httpd
-    state: started
-    enabled: yes
+- name: create a openstack workdir
+  file:
+    path: "{{ openstack_work_dir }}"
+    mode: 0644
+    recurse: yes
+- name: copy httpd.py server
+  template:
+    src: httpd.py
+    dest: "{{ openstack_work_dir }}"
+
+- name: start python httpd server
+  shell: "nohup python3 {{ openstack_work_dir }}/httpd.py &"
 
 - name: get list of VMs from libvirtd
   virt:
     command: list_vms
   register: virt_vms
 
-- name: copy a anaconda files to /var/www/html
+- name: copy a anaconda files to "{{ openstack_work_dir }}"
   copy:
     src: "{{ item }}.ks"
-    dest: "{{ local_apache_htdoc_directory }}{{ item }}.ks"
+    dest: "{{ openstack_work_dir }}{{ item }}.ks"
     owner: root
     group: root
     mode: 0644
   with_items:
     - "{{ openstack_nodes }}"
+
 - name: adjust to kickstart .ks file permission 
   file:
-    path: "{{ local_apache_htdoc_directory }}{{ item }}.ks"
+    path: "{{ openstack_work_dir }}{{ item }}.ks"
     owner: root
     group: root
     mode: 0644

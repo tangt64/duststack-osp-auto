@@ -4,6 +4,5 @@
   serial: 1
   tags: classroom
   roles:  
-    - { role: virt-vms, when: lab == "openstack" }
-    - { role: virt-k8s, when: lab == "kubernetes" }
+    - { role: virt-vms }
 

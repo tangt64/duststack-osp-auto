@@ -2,3 +2,4 @@
 *.swp
 *.log
 rsa.yaml
+openstack.log
