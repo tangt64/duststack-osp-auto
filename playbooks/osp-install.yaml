@@ -21,7 +21,7 @@
   hosts: database
   tags: mariadb
   roles:
-    - database
+    - mariadb
 
 - name: install mongodb
   hosts: database

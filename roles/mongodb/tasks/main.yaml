@@ -1,13 +1,13 @@
+- name: copy a repository file for mongodb
+  copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb-org.repo
+
 - name: install mongodb packages
   tags: packages
   package: name={{ item }} state=latest
   with_items:
-    - mongodb
-    - mongodb-server 
-
-- name: install mongod config
-  tags: config
-  copy: src=mongod.conf dest=/etc/mongod.conf
+    - mongodb-org
 
 - name: start mongodb
   service: name=mongod state=restarted enabled=yes
