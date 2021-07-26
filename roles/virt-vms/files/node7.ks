@@ -7,7 +7,7 @@ keyboard 'us'
 # Root password
 rootpw --iscrypted $1$vZhANTdH$a5juvIOCLLNWs2Xc2UU3v1
 # Use network installation
-url --url="http://mirror.kakao.com/centos/7/os/x86_64/"
+repo --name="AppStream" --baseurl="http://mirror.kakao.com/centos/8-stream/"
 # System language
 lang en_US
 # System authorization information

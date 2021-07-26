@@ -1,7 +1,16 @@
+- name: Enabled the powertools repository
+  shell: dnf config-manager --set-enabled powertools
+
+- name: update all packages latest version
+  package: 
+    name: '*'
+    state: latest
+
+
 - name: install packages
   tags: packages
-  yum: 
-    name: ['openstack-nova-api', 'openstack-nova-conductor', 'openstack-nova-console', 'openstack-nova-novncproxy', 'openstack-nova-scheduler', 'openstack-nova-placement-api', 'openstack-nova-migration', 'openstack-nova-spicehtml5proxy']
+  package: 
+    name: ['openstack-nova-api', 'openstack-nova-conductor', 'openstack-nova-novncproxy', 'openstack-nova-scheduler', 'openstack-nova-migration', 'openstack-nova-spicehtml5proxy']
     state: latest
 
 - name: install nova configuration
@@ -12,18 +21,18 @@
   with_items:
     - nova.conf
 
-- name: install fixed httpd configuration
-  tags: config
-  copy: 
-    src: 00-nova-placement-api.conf 
-    dest: /etc/httpd/conf.d/00-nova-placement-api.conf
+#- name: install fixed httpd configuration
+#  tags: config
+#  copy: 
+#    src: 00-nova-placement-api.conf 
+#    dest: /etc/httpd/conf.d/00-nova-placement-api.conf
 
-- name: restart httpd
-  systemd: 
-    name: httpd 
-    state: restarted 
-    enabled: yes
-  when: not ansible_check_mode
+#- name: restart httpd
+#  systemd: 
+#   name: httpd 
+#    state: restarted 
+#    enabled: yes
+#  when: not ansible_check_mode
 
 - name: copy db create template
   template: 

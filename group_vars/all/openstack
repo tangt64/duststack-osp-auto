@@ -11,7 +11,8 @@ enable_aodh: false
 enable_openvswitch: false
 enable_linuxbridge: true
 
-openstack_release: rocky
+openstack_release: victoria
+
 destroy_data: true
 admin_password: openstack
 demo_password: openstack
@@ -56,8 +57,8 @@ aodh_password: aodh
 ceilometerdb_password: ceilometer
 ceilometer_password: ceilometer
 
-neutrondb_password: neutron 
-neutron_password: neutron 
+neutrondb_password: neutron
+neutron_password: neutron
 
 #
 # provider network settings

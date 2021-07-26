@@ -8,11 +8,13 @@ openstack_nodes:
 vdb_nodes:
   - node3
   - node4
-  
+
 storage_nodes:
   - node3
 network_nodes:
 
+
+kargs: 'console=tty0 console=ttyS0 net.ifnames=0 biosdevname=0'
 
 virt_vdb_name: compute1
 virt_vdb_postfix: vdb
@@ -20,7 +22,7 @@ virt_disk_format: qcow2
 virt_disk_image_path: /var/lib/libvirt/images/
 virt_disk_size: 20G
 
-repository_url: http://mirror.kakao.com/centos/7/os/x86_64/
+repository_url: http://mirror.kakao.com/centos/8-stream/BaseOS/x86_64/os/
 
 libvirt_owner: qemu
 libvirt_group: qemu
@@ -35,4 +37,4 @@ virt_hypervisor: hvm
 virt_graphics: spice
 
 os_type: linux
-os_variant: centos7
+os_variant: centos8-steam

@@ -93,13 +93,13 @@
     - "{{ openstack_nodes }}"
 
 - name: install control/network/storage virtual machine on libvirt daemon 
-  shell: virt-install -n {{ item }} -r {{ vmem }} --cpu host-passthrough --vcpus {{ vcpu }} -l {{ repository_url }} --network network={{ nic1 }} --network network={{ nic2 }} --graphics {{ virt_graphics }} -v --disk=path={{ virt_disk_image_path }}{{ item }}.{{ virt_disk_format }},format={{ virt_disk_format }} --noautoconsole -x ks="{{ kickstart_address }}/{{ item }}.ks"
+  shell: virt-install -n {{ item }} -r {{ vmem }} --cpu host-passthrough --vcpus {{ vcpu }} -l {{ repository_url }} --network network={{ nic1 }} --network network={{ nic2 }} --graphics {{ virt_graphics }} -v --disk=path={{ virt_disk_image_path }}{{ item }}.{{ virt_disk_format }},format={{ virt_disk_format }} --noautoconsole -x ks="{{ kickstart_address }}/{{ item }}.ks {{ kargs }}"
   with_items:
     - "{{ openstack_nodes }}"
 
 - name: wait for build to VMs
   pause:
-    minutes: 30
+    minutes: 20
     prompt: "Waiting for building to VMs about 30 mins"
 
 - block:

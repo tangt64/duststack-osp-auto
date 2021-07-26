@@ -6,7 +6,7 @@
 - name: install support files for {{ openstack_release }}
   package: name={{ item }} state=latest
   with_items:
-    - python-openstackclient
+    - python3-openstackclient
     - openstack-selinux
     - epel-release
 
@@ -32,23 +32,31 @@
 
 - name: Stop and disabled firewalld
   tags: config
-  systemd: name=firewalld state=stopped enabled=no
+  systemd: 
+    name: firewalld 
+    state: stopped 
+    enabled: no
 
 - name: Install iptables-services package
   tags: config
-  yum: name=iptables-services state=installed
+  yum: 
+    name: iptables-services 
+    state: installed
 
 - name: Start and enabled iptables service
   tags: config
-  systemd: name=iptables state=started enabled=yes
+  systemd: 
+    name: iptables 
+    state: started 
+    enabled: yes
 
-- name: insert into iptables port policy for OpenStack services
-  shell: "{{ item }}"
-  with_items:
-    - 'iptables -F'
-    - 'iptables-save > /etc/sysconfig/iptables'
+#- name: insert into iptables port policy for OpenStack services
+#  shell: "{{ item }}"
+#  with_items:
+#    - 'iptables -F'
+#    - 'iptables-save > /etc/sysconfig/iptables'
 
-- name: Temporary SELinux stop
-  tags: config
-  selinux: 
-    state: disabled
+#- name: Temporary SELinux stop
+#  tags: config
+#  selinux: 
+#    state: disabled

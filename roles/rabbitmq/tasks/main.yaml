@@ -81,7 +81,7 @@
     when: groups['rabbitmq'].index(inventory_hostname) == 0
   when: groups['rabbitmq']|count > 1
 
-- name: check rabbitmq cluster
-  tags: test
-  shell: rabbitmqctl cluster_status | grep running_nodes | grep {{ item }}
-  with_items: "{{ groups['rabbitmq'] }}"
+#- name: check rabbitmq cluster
+#  tags: test
+#  shell: rabbitmqctl cluster_status | grep running_nodes | grep {{ item }}
+#  with_items: "{{ groups['rabbitmq'] }}"

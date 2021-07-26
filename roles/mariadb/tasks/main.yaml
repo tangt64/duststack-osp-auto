@@ -1,7 +1,7 @@
 - name: install mysql packages
   tags: packages
   yum:
-    name: ['mariadb', 'mariadb-server-galera', 'MySQL-python', 'percona-xtrabackup']
+    name: ['mariadb', 'mariadb-server-galera', 'python3-mysqlclient.x86_64']
     state: latest
 
 - name: install mariadb config
