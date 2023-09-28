@@ -5,7 +5,9 @@
 
 - name: install mongodb packages
   tags: packages
-  package: name={{ item }} state=latest
+  package: 
+    name: "{{ item }}"
+    state: latest
   with_items:
     - mongodb-org
 

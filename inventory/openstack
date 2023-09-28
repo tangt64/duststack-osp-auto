@@ -1,29 +1,21 @@
 [controller]
-node1.example.com ansible_host=192.168.90.110
-node2.example.com ansible_host=192.168.90.120
+node1.example.com ansible_host=10.10.10.110
 
 [compute]
-node3.example.com ansible_host=192.168.90.130
-node4.example.com ansible_host=192.168.90.140
+node1.example.com ansible_host=10.10.10.110
+node2.example.com ansible_host=10.10.10.120
 
 [rabbitmq]
-node1.example.com ansible_host=192.168.90.110
-node2.example.com ansible_host=192.168.90.120
+node1.example.com ansible_host=10.10.10.110
 
 [database]
-node1.example.com ansible_host=192.168.90.110
-node2.example.com ansible_host=192.168.90.120
+node1.example.com ansible_host=10.10.10.110
 
 [controller_swift]
-node1.example.com ansible_host=192.168.90.110
-node2.example.com ansible_host=192.168.90.120
 
 [storage_swift]
-node3.example.com ansible_host=192.168.90.130
 
 [storage_lvm2]
-node3.example.com ansible_host=192.168.90.130
-node4.example.com ansible_host=192.168.90.140
 
 [storage_nfs]
 

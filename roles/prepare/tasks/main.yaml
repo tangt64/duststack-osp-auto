@@ -4,17 +4,25 @@
     state: latest
 
 - name: install support files for {{ openstack_release }}
-  package: name={{ item }} state=latest
+  package: 
+    name: "{{ item }}"
+    state: latest
   with_items:
     - python3-openstackclient
     - openstack-selinux
     - epel-release
 
 - name: setup limits
-  copy: src=limits-openstack.conf dest=/etc/security/limits.d/30-openstack.conf 
+  copy: 
+    src: limits-openstack.conf 
+    dest: /etc/security/limits.d/30-openstack.conf 
 
 - name: generate environment
-  lineinfile: line="export {{ item.key }}={{ item.value }}" dest=/root/openstack-admin.rc state=present create=yes
+  lineinfile: 
+    line: 'export {{ item.key }}={{ item.value }}' 
+    dest: /root/openstack-admin.rc 
+    state: present 
+    create: yes
   tags: config
   with_dict: "{{ openstack_env }}"
 

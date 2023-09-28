@@ -16,7 +16,7 @@
     enabled: yes
   when: not ansible_check_mode|bool
 
-- name: verify vip is available
+- name: verify VIP is available
   debug: 
     msg: "{{ ansible_hostname}} have {{ ansible_all_ipv4_addresses }}"
   when: internal_vip_address in ansible_all_ipv4_addresses

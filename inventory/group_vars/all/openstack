@@ -1,5 +1,7 @@
 ansible_python_interpreter: auto_legacy_silent
 
+virt_type: qemu
+
 enable_heat: true
 enable_swift: false
 enable_horizon: true
@@ -11,7 +13,7 @@ enable_aodh: false
 enable_openvswitch: false
 enable_linuxbridge: true
 
-openstack_release: victoria
+openstack_release: antelope
 
 destroy_data: true
 admin_password: openstack
@@ -20,23 +22,24 @@ glancedb_password: openstack
 glance_password: openstack
 cinderdb_password: openstack
 cinder_password: openstack
+cinder_dev: /dev/vdb
+
 heat_domain_password: openstack
 heat_password: openstack
 heatdb_password: openstack
 
-cinder_dev: /dev/vdb
-
 metadata_secret: openstack
-
 mariadb_password: openstack
-
 keystonedb_password: openstack
-
 rabbitmq_password: openstack
 rabbitmq_longname: true
 
 root_ssh_key: ''
 
+
+#
+#
+#
 swift_password: swift
 swift_hash_path_suffix: 39fe2de19b
 swift_hash_path_prefix: 7a2cac670f
@@ -50,13 +53,21 @@ swift_replica_count: 1
 zone_number: 1
 
 #
+#
+#
 aodhdb_password: aodh
 aodh_domain_password: aodh
 aodh_password: aodh
+
+#
+#
 #
 ceilometerdb_password: ceilometer
 ceilometer_password: ceilometer
 
+#
+#
+#
 neutrondb_password: neutron
 neutron_password: neutron
 
@@ -72,20 +83,31 @@ provider_nameserver: 8.8.8.8
 novadb_password: nova
 nova_password: nova
 nova_placement_password: nova
+
 #
-internal_vip_address: 192.168.90.250
-#internal_single_host_address: 192.168.90.250
+#
+#
+internal_vip_address: 10.10.10.110
+
+#
+#
 #
 public_interface_name: eth0
 internal_interface_name: eth1
 storage_interface_name: eth2
 management_interface_name: eth3
+
+#
+#
 #
 provider_allocation_pool: start=192.168.122.210,end=192.168.122.220
 provider_gateway: 192.168.122.1
 provider_network_cidr: 192.168.122.0/24
+
+#
+#
 #
 selfservice_network: private
 selfservice_nameserver: 8.8.8.8
-selfservice_network_cidr: 192.168.90.0/24
-selfservice_gateway: 192.168.90.1
+selfservice_network_cidr: 192.168.0.0/24
+selfservice_gateway: 192.168.0.1

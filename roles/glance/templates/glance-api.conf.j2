@@ -9,13 +9,13 @@ registry_host = {{ internal_vip_address|default(groups['controller'][0]) }}
 connection = mysql+pymysql://glance:{{ glancedb_password }}@{{ internal_vip_address|default(groups['controller'][0]) }}/glance
 
 [glance_store]
-stores = file,http
-default_store = file
+enabled_backends = file,http
+default_backed = file
 filesystem_store_datadir = /var/lib/glance/images/
 
 [keystone_authtoken]
-auth_uri = http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000
-auth_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:35357
+www_authenticate_uri = http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000
+auth_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000
 auth_type = password
 project_domain_name = default
 user_domain_name = default

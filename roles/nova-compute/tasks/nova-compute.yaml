@@ -1,16 +1,11 @@
-- name: update all packages latest version
-  package: 
-    name: '*'
-    state: latest
-
-- name: Enabled the powertools repository
-  shell: dnf config-manager --set-enabled powertools
-
 - name: install packages
   tags: packages
-  yum: 
-    name: ['openstack-nova-compute', 'sysfsutils']
+  dnf: 
+    name: "{{ item }}"
     state: latest
+  loop:
+    - openstack-nova-compute
+    - sysfsutils
 
 - name: install nova configuration
   tags: config

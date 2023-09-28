@@ -1,0 +1,15 @@
+[placement_database]
+connection = mysql+pymysql://placement:{{ novadb_password }}@{{ internal_vip_address|default(groups['controller'][0]) }}/placement
+
+[api]
+auth_strategy = keystone
+
+[keystone_authtoken]
+auth_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000/v3
+memcached_servers = {{ internal_vip_address|default(groups['controller'][0]) }}:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = placement
+password = {{ nova_password }}

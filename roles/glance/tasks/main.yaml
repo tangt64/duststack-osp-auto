@@ -48,13 +48,16 @@
 
 - name: start services
   tags: service
-  service: name={{ item }} state=restarted enabled=yes
+  service: 
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
   when: not ansible_check_mode
   with_items:
-    - openstack-glance-registry
     - openstack-glance-api
 
-- wait_for: port=9292
+- wait_for: 
+    port: 9292
 
 - block:
   - name: get images list

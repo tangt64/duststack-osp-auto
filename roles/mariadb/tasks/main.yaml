@@ -1,8 +1,11 @@
 - name: install mysql packages
   tags: packages
   yum:
-    name: ['mariadb', 'mariadb-server-galera', 'python3-mysqlclient.x86_64']
+    name: "{{ item }}" 
     state: latest
+  loop:
+    - mariadb
+    - mariadb-server-galera
 
 - name: install mariadb config
   tags: config
@@ -10,28 +13,33 @@
     src: galera.cnf.j2
     dest: /etc/my.cnf.d/galera.cnf
 
-- name: destroy mariadb data
-  block:
-  - file:
-      path: /var/lib/mysql
-      state: absent
-  - file:
-      path: /var/lib/mysql
-      state: directory
-      owner: mysql
-      group: mysql
-
 - name: start new galera cluster
   tags: service
   command: galera_new_cluster
   when: not ansible_check_mode and (groups['database'].index(inventory_hostname) == 0 and groups['database']|count > 1)
 
-- name: start mariadb
-  tags: service
-  systemd: 
-    name: mariadb 
-    state: restarted 
-    enabled: yes
+- name: manage to mariadb-server and data directory 
+  block:
+    - name: stop to mariadb
+      tags: service
+      systemd: 
+        name: mariadb 
+        state: stopped
+    - name: delete to the mariadb directory
+      file:
+        path: /var/lib/mysql
+        state: absent
+    - name: create to the mariadb directory
+      file:
+        path: /var/lib/mysql
+        state: directory
+        owner: mysql
+        group: mysql
+    - name: start to mariadb
+      tags: service
+      systemd: 
+        name: mariadb 
+        state: started
   when: not ansible_check_mode and (groups['database'].index(inventory_hostname) > 0 or groups['database']|count < 2)
 
 - name: test mariadb

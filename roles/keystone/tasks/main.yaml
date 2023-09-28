@@ -1,8 +1,13 @@
 - name: install keystone packages
-  yum: 
-    name: ['openstack-keystone', 'httpd', 'mod_wsgi', 'python-memcached']
+  dnf: 
+    name: "{{ item }}"
     state: latest
   when: not ansible_check_mode
+  loop:
+    - openstack-keystone
+    - httpd
+    - mod_wsgi
+    - python-memcached
 
 - name: install keystone configuration
   tags: config
@@ -13,8 +18,9 @@
 
 - name: install httpd config
   tags: config
-  copy: 
-    src: wsgi-keystone.conf 
+  file: 
+    state: link
+    src: /usr/share/keystone/wsgi-keystone.conf
     dest: /etc/httpd/conf.d/wsgi-keystone.conf
 
 - name: initialize fernet key repositories
@@ -55,18 +61,17 @@
     shell:
       cmd: |
         keystone-manage bootstrap --bootstrap-password {{ admin_password }} \
-        --bootstrap-admin-url http://{{ internal_vip_address|default(groups['controller'][0]) }}:35357/v3/ \
+        --bootstrap-admin-url http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-internal-url http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-public-url http://{{ internal_vip_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-region-id RegionOne
     when: groups['controller'][0] | length >= 2
 
-
   - name: bootstrap the identity service as single controller
     shell:
       cmd: |
         keystone-manage bootstrap --bootstrap-password {{ admin_password }} \
-        --bootstrap-admin-url http://{{ internal_single_host_address|default(groups['controller'][0]) }}:35357/v3/ \
+        --bootstrap-admin-url http://{{ internal_single_host_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-internal-url http://{{ internal_single_host_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-public-url http://{{ internal_single_host_address|default(groups['controller'][0]) }}:5000/v3/ \
         --bootstrap-region-id RegionOne
@@ -89,11 +94,11 @@
 - name: test keystone token for single controller node
   tags: test
   delegate_to: "{{ groups['controller'][0] }}"
-  shell: openstack --os-auth-url http://{{ ansible_eth1['ipv4']['address'] }}:35357/v3 token issue | grep '^| id'
+  shell: openstack --os-auth-url http://{{ ansible_eth1['ipv4']['address'] }}:5000/v3 token issue | grep '^| id'
   when: groups['controller'][0] | length == 1
 
 - name: test keystone token for multi controller nodes
   tags: test
   delegate_to: "{{ groups['controller'][0] }}"
-  shell: openstack --os-auth-url http://{{ internal_vip_address }}:35357/v3 token issue | grep '^| id'
+  shell: openstack --os-auth-url http://{{ internal_vip_address }}:5000/v3 token issue | grep '^| id'
   when: groups['controller'][0] | length > 1
