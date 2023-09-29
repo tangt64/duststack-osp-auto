@@ -2,7 +2,7 @@
 transport_url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
 core_plugin = ml2
-service_plugins = router,neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
+service_plugins = router
 allow_overlapping_ips = True
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True

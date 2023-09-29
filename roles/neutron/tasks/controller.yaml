@@ -1,7 +1,13 @@
 - name: install packages
   tags: packages
-  yum: 
-    name: ['openstack-neutron','openstack-neutron-ml2','openstack-neutron-lbaas','python-neutronclient','ebtables','ipset','openstack-neutron-linuxbridge']
+  dnf:
+    name: 
+      - openstack-neutron
+      - openstack-neutron-ml2
+      - python-neutronclient
+      - ebtables
+      - ipset
+      - openstack-neutron-linuxbridge
     state: latest
 
 - name: install configurations
@@ -41,13 +47,15 @@
   when: not ansible_check_mode
 
 - block:
-  - name: copy db create template
-    template: 
-      src: neutrondb.sql.j2 
-      dest: /tmp/neutrondb.sql
-
-  - name: create database
-    shell : mysql -u root < /tmp/neutrondb.sql
+  - name: create databasea for neutron
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: ajdcjddl
+      name: nova
+      state: import
+      target: "{{ item }}"
+    loop:
+      - /tmp/neutrondb.sql
 
   # - name: remove sql
   #   file: path=/tmp/neutrondb.sql state=absent

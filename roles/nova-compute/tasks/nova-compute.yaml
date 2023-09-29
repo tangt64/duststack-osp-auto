@@ -21,7 +21,7 @@
     name: "{{ item }}"
     state: restarted 
     enabled: yes
-  #when: not ansible_check_mode
-  with_items:
+  when: not ansible_check_mode
+  loop:
     - libvirtd
     - openstack-nova-compute
