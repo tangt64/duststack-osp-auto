@@ -10,7 +10,7 @@ firewall_driver = nova.virt.firewall.NoopFirewallDriver
 enabled_apis=osapi_compute,metadata
 instance_usage_audit = True
 instance_usage_audit_period = hour
-notify_on_state_change = vm_and_task_state
+
 use_neutron = True
 public_interface = {{ public_interface_name }}
 
@@ -18,6 +18,11 @@ public_interface = {{ public_interface_name }}
 use_cow_images=False
 {% endif %}
 compute_driver = libvirt.LibvirtDriver
+
+[notifications]
+notify_on_state_change = vm_and_task_state
+
+[oslo_concurrency]
 log_dir = /var/log/nova 
 lock_path = /var/lock/nova 
 state_path = /var/lib/nova   
@@ -37,8 +42,8 @@ enabled = True
 memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 
-[glance]
-api_servers  = http://{{ internal_vip_address|default(groups['controller'][0]) }}:9292
+#[glance]
+#api_servers  = http://{{ internal_vip_address|default(groups['controller'][0]) }}:9292
 
 
 [keystone_authtoken]

@@ -1,3 +1,9 @@
+- name: login to mariadb server
+  mysql_user:
+    name: root
+    password: ajdcjddl
+    login_unix_socket: /var/lib/mysql/mysql.sock
+
 - name: install to openstack nova packages
   tags: packages
   dnf:
@@ -16,13 +22,31 @@
     - openstack-nova-serialproxy
     - openstack-nova-spicehtml5proxy
 
+- name: update to /etc/httpd/conf.d/placement.conf file
+  copy: 
+    src: 00-placement-api.conf
+    dest: /etc/httpd/conf.d/00-placement-api.conf
+
+- name: restart to httpd service
+  systemd:
+    name: httpd
+    state: restarted
+
 - name: install nova configuration
   tags: config
   template: 
     src: "{{ item }}.j2" 
     dest: /etc/nova/{{ item }}
-  with_items:
+  loop:
     - nova.conf
+
+- name: install nova configuration
+  tags: config
+  template: 
+    src: "{{ item }}.j2" 
+    dest: /etc/placement/{{ item }}
+  loop:
+    - placement.conf
 
 #- name: install fixed httpd configuration
 #  tags: config
@@ -39,22 +63,19 @@
 
 - name: copy db create template
   template: 
-    src: novadb.sql.j2 
+    src: novadb.sql.j2
     dest: /tmp/novadb.sql
 
-- name: copy placement create template
-  template: 
-    src: placement.sql.j2 
-    dest: /tmp/placement.sql
-
 - block:
-  - name: create database
-    shell : mysql -u root < /tmp/novadb.sql
-
-  - name: remove sql
-    file: 
-      path: /tmp/novadb.sql 
-      state: absent
+  - name: create databasea for nova
+    community.mysql.mysql_db: 
+      login_user: root
+      login_password: ajdcjddl
+      name: nova
+      state: import
+      target: "{{ item }}"
+    loop:
+      - /tmp/novadb.sql
 
   - name: list users
     command: "openstack user list"
@@ -99,7 +120,7 @@
   when: not ansible_check_mode
   run_once: true
 
-- name: start services
+- name: restart services
   tags: service
   systemd: 
     name: "{{ item }}"

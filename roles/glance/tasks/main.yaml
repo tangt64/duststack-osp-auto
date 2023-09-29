@@ -1,6 +1,9 @@
 - name: install packages
   tags: packages
-  package: name={{ item }} state=latest
+  dnf: 
+    name: "{{ item }}"
+    state: latest
+    enablerepo: crb
   with_items:
     - openstack-glance
     - python-glance
