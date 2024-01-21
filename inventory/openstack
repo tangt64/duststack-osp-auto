@@ -1,77 +1,113 @@
-[controller]
-node1.example.com ansible_host=10.10.10.110
+[controller.hosts]
+node1.example.com { ansible_host=10.10.10.1 }
 
-[compute]
-node1.example.com ansible_host=10.10.10.110
-node2.example.com ansible_host=10.10.10.120
+[compute.hosts]
+node1.example.com { ansible_host=10.10.10.2 }
+node2.example.com { ansible_host=10.10.10.3 }
 
-[rabbitmq]
-node1.example.com ansible_host=10.10.10.110
+[rabbitmq.hosts]
+node1.example.com { ansible_host=10.10.10.4 }
+
+[database.hosts]
+node1.example.com { ansible_host=10.10.10.5 }
+
+[controller_swift.hosts]
+
+[storage_swift.hosts]
+
+[storage_lvm2.hosts]
+
+[storage_nfs.hosts]
+
+[storage_glusterfs.hosts]
+
+[storage_ceph.hosts]
+
+[storage_gfs2.hosts]
 
 [database]
-node1.example.com ansible_host=10.10.10.110
+children = [
+  "controller"
+]
 
-[controller_swift]
+[rabbitmq_controller]
+children = [
+  "rabbitmq"
+]
 
-[storage_swift]
+[keystone]
+children = [
+  "controller"
+]
 
-[storage_lvm2]
+[glance]
+children = [
+  "controller"
+]
 
-[storage_nfs]
 
-[storage_glusterfs]
+[cinder_controller]
+children = [
+  "controller"
+]
 
-[storage_ceph]
+[cinder]
+children = [
+  "compute"
+]
 
-[storage_gfs2]
-
-[database:children]
-controller
-
-[rabbitmq_controller:children]
-rabbitmq
-
-[keystone:children]
-controller
-
-[glance:children]
-controller
-
-[cinder_controller:children]
-controller
-
-#[cinder:children]
-#compute
-
-[nova_controller:children]
-controller
+[nova_controller]
+children = [
+  "controller"
+]
 
 [nova:children]
-compute
+compute = [
+  "compute"
+]
 
-[neutron_controller:children]
-controller
 
-[neutron_linuxbridge:children]
-compute
+[neutron_controller]
+controller = [
+  "controller"
+]
 
-[neutron_openvswitch:children]
-compute
+[neutron_linuxbridge]
+children = [
+  "compute"
+]
 
-[heat:children]
-controller
+[neutron_openvswitch]
+children = [
+  "children"
+]
 
-[swift_controller:children]
-controller_swift
+[heat]
+children = [
+  "controller"
+]
 
-[swift:children]
-storage_swift
+[swift_controller]
+children = [
+  "controller_swift"
+]
 
-[ceilometer_controller:children]
-controller
+[swift]
+children = [
+  "storage_swift"
+]
 
-[ceilometer_nova:children]
-compute
+[ceilometer_controller]
+children = [
+  controller
+]
+
+[ceilometer_nova]
+children = [
+  compute
+]
 
 [horizon:children]
-controller
+children = [
+  controller
+]
