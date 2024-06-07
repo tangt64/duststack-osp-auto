@@ -47,5 +47,5 @@ controller
 [ceilometer_nova:children]
 nova
 
-[horizon:children:children]
+[horizon:children]
 controller
