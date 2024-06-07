@@ -5,9 +5,6 @@ node1.dustbox.kr
 node1.dustbox.kr
 node2.dustbox.kr
 
-[database]
-node1.dustbox.kr
-
 [storage_swift]
 
 [storage_lvm2]
@@ -20,35 +17,35 @@ node1.dustbox.kr
 
 [storage_gfs2]
 
-[database]
+[database:children]
 controller
 
-[glance]
+[glance:children]
 controller
 
-[nova_controller]
+[nova_controller:children]
 controller
 
 [nova_compute]
 compute
 
-[neutron_controller]
+[neutron_controller:children]
 controller
 
-[neutron_linuxbridge]
+[neutron_linuxbridge:children]
 compute
 
-[neutron_openvswitch]
+[neutron_openvswitch:children]
 compute
 
 [heat]
 controller
 
-[ceilometer_controller]
+[ceilometer_controller:children]
 controller
 
-[ceilometer_nova]
+[ceilometer_nova:children]
 nova
 
-[horizon:children]
+[horizon:children:children]
 controller
