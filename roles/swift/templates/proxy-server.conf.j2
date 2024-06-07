@@ -29,13 +29,13 @@ project_name = service
 username = swift
 password = {{ swift_password }}
 delay_auth_decision = True
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 {% if groups['ceilometer_controller']|count > 0 %}
 [filter:ceilometer]
 paste.filter_factory = ceilometermiddleware.swift:filter_factory
 control_exchange = swift
-url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
+url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
 driver = messagingv2
 topic = notifications
@@ -51,7 +51,7 @@ use = egg:swift#healthcheck
 
 [filter:cache]
 use = egg:swift#memcache
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 [filter:ratelimit]
 use = egg:swift#ratelimit

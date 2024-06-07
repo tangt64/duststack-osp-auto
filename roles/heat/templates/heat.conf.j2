@@ -1,5 +1,5 @@
 [DEFAULT]
-transport_url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
+transport_url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
 heat_metadata_server_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:8000
 heat_waitcondition_server_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:8000/v1/waitcondition
@@ -21,12 +21,12 @@ user_domain_name = default
 project_name = service
 username = heat
 password = {{ heat_password }}
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 [trustee]
 auth_url = http://{{ internal_vip_address|default(groups['controller'][0]) }}:35357

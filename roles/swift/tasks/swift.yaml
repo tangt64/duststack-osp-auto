@@ -86,7 +86,7 @@
     command: swift-ring-builder object.builder create 10 {{ swift_replica_count }} 1 chdir=/etc/swift
 
   - name: add each storage node to the ring - account.builder
-    #command: swift-ring-builder account.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }} --port 6002 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
+    #command: swift-ring-builder account.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_ens2f0']['ipv4']['address'] }} --port 6002 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     command: swift-ring-builder account.builder add --region 1 --zone 1 --ip {{ internal_vip_address|default(groups['controller'][0]) }} --port 6002 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     with_nested:
       - "{{ groups['swift'] }}"
@@ -96,7 +96,7 @@
   #  with_sequence: count=2
 
   - name: add each storage node to the ring - container.builder
-    #command: swift-ring-builder container.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }} --port 6001 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
+    #command: swift-ring-builder container.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_ens2f0']['ipv4']['address'] }} --port 6001 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     command: swift-ring-builder container.builder add --region 1 --zone 1 --ip {{ internal_vip_address|default(groups['controller'][0]) }} --port 6001 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     with_nested:
       - "{{ groups['swift'] }}"
@@ -106,7 +106,7 @@
   #  with_sequence: count=2
 
   - name: add each storage node to the ring - object.builder
-    #command: swift-ring-builder object.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }} --port 6000 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
+    #command: swift-ring-builder object.builder add --region 1 --zone {{ item[2] }} --ip {{ hostvars[inventory_hostname]['ansible_ens2f0']['ipv4']['address'] }} --port 6000 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     command: swift-ring-builder object.builder add --region 1 --zone 1 --ip {{ internal_vip_address|default(groups['controller'][0]) }} --port 6000 --device {{ item[1]|basename }} --weight 100 chdir=/etc/swift
     with_nested:
       - "{{ groups['swift'] }}"

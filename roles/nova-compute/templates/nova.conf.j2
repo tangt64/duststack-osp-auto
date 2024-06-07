@@ -1,7 +1,7 @@
 [DEFAULT]
-transport_url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
+transport_url = rabbit://{% for host in groups['controller'] %}openstack:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}{% if not loop.last %},{% endif %}{% endfor %}
 
-#bind_host = {{ ansible_eth1['ipv4']['address'] }}
+#bind_host = {{ ansible_ens2f0['ipv4']['address'] }}
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
 linuxnet_interface_driver = nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
@@ -31,7 +31,7 @@ connection = mysql+pymysql://nova:{{ novadb_password }}@{{ internal_vip_address|
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 [glance]
 api_servers  = http://{{ internal_vip_address|default(groups['controller'][0]) }}:9292
@@ -45,7 +45,7 @@ user_domain_name = default
 project_name = service
 username = nova
 password = {{ nova_password }}
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [libvirt]

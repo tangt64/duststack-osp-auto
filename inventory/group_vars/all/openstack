@@ -93,7 +93,7 @@ internal_vip_address: 10.10.10.110
 #
 #
 public_interface_name: eth0
-internal_interface_name: eth1
+internal_interface_name: ens2f0
 storage_interface_name: eth2
 management_interface_name: eth3
 

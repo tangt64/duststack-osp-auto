@@ -94,7 +94,7 @@
 - name: test keystone token for single controller node
   tags: test
   delegate_to: "{{ groups['controller'][0] }}"
-  shell: openstack --os-auth-url http://{{ ansible_eth1['ipv4']['address'] }}:5000/v3 token issue | grep '^| id'
+  shell: openstack --os-auth-url http://{{ ansible_ens2f0['ipv4']['address'] }}:5000/v3 token issue | grep '^| id'
   when: groups['controller'][0] | length == 1
 
 - name: test keystone token for multi controller nodes

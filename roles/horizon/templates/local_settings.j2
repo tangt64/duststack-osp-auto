@@ -18,7 +18,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': [{% for host in groups['controller'] %}'{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211'{% if not loop.last %},{% endif %}{% endfor %}],
+        'LOCATION': [{% for host in groups['controller'] %}'{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211'{% if not loop.last %},{% endif %}{% endfor %}],
     }
 }
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

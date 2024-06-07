@@ -12,7 +12,7 @@ zerombr
 clearpart --all --initlabel
 part / --fstype=xfs --size=20000
 network --device=eth0 --hostname=node1.example.com --bootproto=static --ip=192.168.122.110 --netmask=255.255.255.0 --gateway=192.168.122.1 --nameserver=8.8.8.8
-network --device=eth1 --hostname=node1.example.com --bootproto=static --ip=192.168.90.110 --netmask=255.255.255.0
+network --device=ens2f0 --hostname=node1.example.com --bootproto=static --ip=192.168.90.110 --netmask=255.255.255.0
 auth --passalgo=sha512 --useshadow
 selinux --enforcing
 firewall --enabled --ssh

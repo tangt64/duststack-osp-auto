@@ -1,5 +1,5 @@
 [DEFAULT]
-bind_host = {{ ansible_eth1['ipv4']['address'] }}
+bind_host = {{ ansible_ens2f0['ipv4']['address'] }}
 bind_port = 6002
 swift_dir = /etc/swift
 devices = {{ swift_storage_dir }}

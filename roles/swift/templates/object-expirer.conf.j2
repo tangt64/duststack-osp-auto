@@ -11,7 +11,7 @@ use = egg:swift#proxy
 
 [filter:cache]
 use = egg:swift#memcache
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
 
 [filter:catch_errors]
 use = egg:swift#catch_errors

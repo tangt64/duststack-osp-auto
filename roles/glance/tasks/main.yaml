@@ -79,4 +79,4 @@
 
 # - name: test glance api
 #   tags: test
-#   shell: glance --os-image-url http://{{ ansible_eth1['ipv4']['address'] }}:9292 image-list | grep '^| ID'
+#   shell: glance --os-image-url http://{{ ansible_ens2f0['ipv4']['address'] }}:9292 image-list | grep '^| ID'

@@ -12,4 +12,4 @@ connection = mysql+pymysql://keystone:{{ keystonedb_password }}@{{ internal_vip_
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_eth1']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['controller'] %}{{ hostvars[host]['ansible_ens2f0']['ipv4']['address'] }}:11211{% if not loop.last %},{% endif %}{% endfor %}

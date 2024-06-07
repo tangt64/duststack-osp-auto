@@ -3,7 +3,7 @@ physical_interface_mappings = {{ provider_network }}:{{ public_interface_name }}
 
 [vxlan]
 enable_vxlan = True
-local_ip = {{ ansible_eth1['ipv4']['address'] }}
+local_ip = {{ ansible_ens2f0['ipv4']['address'] }}
 l2_population = True
 
 [agent]
