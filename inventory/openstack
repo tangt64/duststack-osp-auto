@@ -26,7 +26,7 @@ controller
 [nova_controller:children]
 controller
 
-[nova_compute]
+[nova_compute:children]
 compute
 
 [neutron_controller:children]
@@ -38,7 +38,7 @@ compute
 [neutron_openvswitch:children]
 compute
 
-[heat]
+[heat:children]
 controller
 
 [ceilometer_controller:children]
