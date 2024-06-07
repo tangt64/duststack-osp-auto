@@ -1,113 +1,54 @@
-[controller.hosts]
-node1.example.com { ansible_host=10.10.10.1 }
+[controller]
+node1.dustbox.kr
 
-[compute.hosts]
-node1.example.com { ansible_host=10.10.10.2 }
-node2.example.com { ansible_host=10.10.10.3 }
-
-[rabbitmq.hosts]
-node1.example.com { ansible_host=10.10.10.4 }
-
-[database.hosts]
-node1.example.com { ansible_host=10.10.10.5 }
-
-[controller_swift.hosts]
-
-[storage_swift.hosts]
-
-[storage_lvm2.hosts]
-
-[storage_nfs.hosts]
-
-[storage_glusterfs.hosts]
-
-[storage_ceph.hosts]
-
-[storage_gfs2.hosts]
+[compute]
+node1.dustbox.kr
+node2.dustbox.kr
 
 [database]
-children = [
-  "controller"
-]
+node1.dustbox.kr
 
-[rabbitmq_controller]
-children = [
-  "rabbitmq"
-]
+[storage_swift]
 
-[keystone]
-children = [
-  "controller"
-]
+[storage_lvm2]
+
+[storage_nfs]
+
+[storage_glusterfs]
+
+[storage_ceph]
+
+[storage_gfs2]
+
+[database]
+controller
 
 [glance]
-children = [
-  "controller"
-]
-
-
-[cinder_controller]
-children = [
-  "controller"
-]
-
-[cinder]
-children = [
-  "compute"
-]
+controller
 
 [nova_controller]
-children = [
-  "controller"
-]
+controller
 
-[nova:children]
-compute = [
-  "compute"
-]
-
+[nova_compute]
+compute
 
 [neutron_controller]
-controller = [
-  "controller"
-]
+controller
 
 [neutron_linuxbridge]
-children = [
-  "compute"
-]
+compute
 
 [neutron_openvswitch]
-children = [
-  "children"
-]
+compute
 
 [heat]
-children = [
-  "controller"
-]
-
-[swift_controller]
-children = [
-  "controller_swift"
-]
-
-[swift]
-children = [
-  "storage_swift"
-]
+controller
 
 [ceilometer_controller]
-children = [
-  controller
-]
+controller
 
 [ceilometer_nova]
-children = [
-  compute
-]
+nova
 
 [horizon:children]
-children = [
-  controller
-]
+controller

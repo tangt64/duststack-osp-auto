@@ -12,19 +12,19 @@
       when: (groups['controller']|count > 1)
 
 - name: install rabbitmq
-  hosts: rabbitmq
+  hosts: controller
   tags: rabbitmq
   roles:
     - rabbitmq
 
 - name: install mariadb database
-  hosts: database
+  hosts: controller
   tags: mariadb
   roles:
     - mariadb
 
 - name: install mongodb
-  hosts: database
+  hosts: controller
   tags: mongodb
   roles:
     - mongodb
@@ -36,7 +36,7 @@
     - memcached
 
 - name: install keystone identity service
-  hosts: keystone
+  hosts: controller
   tags: keystone
   roles:
     - keystone
@@ -50,14 +50,14 @@
   environment: "{{ openstack_env }}"
 
 - name: install nova controller service
-  hosts: controller
+  hosts: nova_controller
   tags: nova
   roles:
     - { role: nova, controller: true }
   environment: "{{ openstack_env }}"
 
 - name: install nova compute service
-  hosts: nova
+  hosts: nova_compute
   tags: nova
   roles:
     - { role: nova-compute, compute: true }
