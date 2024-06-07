@@ -35,7 +35,10 @@
   tags:
     - config
     - clinit
-  local_action: template src="services.xml.j2" dest={{ inventory_dir }}/workdir/services.xml
+  local_action: 
+    template:
+     src: "services.xml.j2" 
+     dest: "{{ inventory_dir }}/workdir/services.xml"
   run_once: true
 
 - name: Stop and disabled firewalld

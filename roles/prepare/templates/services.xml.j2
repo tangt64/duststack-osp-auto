@@ -168,7 +168,7 @@
               status="service openstack-swift-proxy status &gt; /dev/null 2&gt; /dev/null">
   </service>
 {% endfor %}
-{% for item in groups['swift'] %}
+{% for item in groups['storage_swift'] %}
   <service id="openstack-swift-account" host="{{ item }}"
               start="service openstack-swift-account start &gt; /dev/null 2&gt; /dev/null"
               stop="service openstack-swift-account stop &gt; /dev/null 2&gt; /dev/null"
